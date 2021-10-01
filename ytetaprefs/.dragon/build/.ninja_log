@@ -1,0 +1,9 @@
+# ninja log v5
+0	128	1633127926193797631	.dragon/build/arm64/YTETARootListController.m.o	ecb1877634043391
+0	128	1633127926193825422	.dragon/build/arm64e/YTETARootListController.m.o	eb278e24b828064a
+128	288	1633127926354171349	.dragon/build/YTETAPrefs.arm64	d4c0f501d500e4f2
+128	288	1633127926354039227	.dragon/build/YTETAPrefs.arm64e	aebae3fb20867f7
+288	312	1633127926379485201	.dragon/sign/.dragon/_/Library/PreferenceBundles/YTETAPrefs.bundle/YTETAPrefs.unsym	c69b32644e150d33
+312	353	1633127926420110088	.dragon/sign/.dragon/_/Library/PreferenceBundles/YTETAPrefs.bundle/YTETAPrefs.unsigned	da75882c7a55832e
+353	393	1633127926460260693	.dragon/_/Library/PreferenceBundles/YTETAPrefs.bundle/YTETAPrefs	a60b338bfc61a3e2
+0	30	0	stage	1ea3482e9a1f6b14

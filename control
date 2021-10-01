@@ -1,0 +1,9 @@
+Package: com.icraze.yteta
+Name: YTETA
+Depends: mobilesubstrate
+Version: 1.0
+Architecture: iphoneos-arm
+Description: YTETA
+Maintainer: iCraze
+Author: iCraze
+Section: Tweaks
