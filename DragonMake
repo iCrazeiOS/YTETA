@@ -9,6 +9,7 @@ all:
 
 YTETA:
   type: tweak
+  cx: $${THEOS}/toolchain/Xcode11.xctoolchain/usr/bin/clang
   cxx: $${THEOS}/toolchain/Xcode11.xctoolchain/usr/bin/clang++
   files:
     - Tweak.xm
@@ -17,6 +18,7 @@ YTETA:
 YTETAPrefs:
   type: prefs
   dir: ytetaprefs
+  cx: $${THEOS}/toolchain/Xcode11.xctoolchain/usr/bin/clang
   cxx: $${THEOS}/toolchain/Xcode11.xctoolchain/usr/bin/clang++
   cflags: -fobjc-arc
   files:
