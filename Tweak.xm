@@ -38,7 +38,7 @@ static void modifyLabel(UILabel *label, float remainingSeconds, float videoSpeed
 	// Update the label's text
 	if (![label.text containsString:@"Ends at"]) [label setText:[NSString stringWithFormat:@"%@ - Ends at: %@", label.text, endsAtString]];
 	// Resize the label's frame so that the new text fits
-    [label sizeToFit];
+	[label sizeToFit];
 }
 
 %hook YTPlayerViewController
