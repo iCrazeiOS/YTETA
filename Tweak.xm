@@ -2,6 +2,7 @@
 
 @interface YTPlayerViewController : UIViewController
 -(NSInteger)playerState;
+-(float)currentPlaybackRateForVarispeedSwitchController:(id)arg1;
 @end
 
 @interface UIView ()
@@ -23,7 +24,7 @@ static void loadPrefs() {
 	twentyFourHourClockEnabled = [prefs objectForKey:@"twentyFourHourClockEnabled"] ? [[prefs objectForKey:@"twentyFourHourClockEnabled"] boolValue] : NO;
 }
 
-static void modifyLabel(UILabel *label, float remainingSeconds) {
+static void modifyLabel(UILabel *label, float remainingSeconds, float videoSpeed) {
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	NSMutableString *formatString = [[NSMutableString alloc] initWithString:@"mm"];
 	// Add seconds, if they're enabled
@@ -33,7 +34,7 @@ static void modifyLabel(UILabel *label, float remainingSeconds) {
 	// Make the NSDateFormatter use our time format
 	[dateFormatter setDateFormat:formatString];
 	// Get what time it'll be when the video ends
-	NSString *endsAtString = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:remainingSeconds]];
+	NSString *endsAtString = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:remainingSeconds/videoSpeed]];
 	// Update the label's text
 	if (![label.text containsString:@"Ends at"]) [label setText:[NSString stringWithFormat:@"%@ - Ends at: %@", label.text, endsAtString]];
 	// Resize the label's frame so that the new text fits
@@ -53,7 +54,8 @@ static void modifyLabel(UILabel *label, float remainingSeconds) {
 
 	// Get time label
 	UILabel *progressLabel = self.view.overlayView.playerBar.durationLabel;
-	if (![progressLabel.text containsString:@"Ends at"]) modifyLabel(progressLabel, remainingSeconds);
+	// Modify label
+	if (![progressLabel.text containsString:@"Ends at"]) modifyLabel(progressLabel, remainingSeconds, [self currentPlaybackRateForVarispeedSwitchController:nil]);
 }
 %end
 
