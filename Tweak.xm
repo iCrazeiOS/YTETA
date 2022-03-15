@@ -1,7 +1,6 @@
 #import <UIKit/UIKit.h>
 
 @interface YTPlayerViewController : UIViewController
--(NSInteger)playerState;
 -(float)currentPlaybackRateForVarispeedSwitchController:(id)arg1;
 @end
 
@@ -9,8 +8,6 @@
 @property(nonatomic, readwrite) UIView *overlayView;
 @property(nonatomic, readwrite) UIView *playerBar;
 @property(nonatomic, readwrite) UILabel *durationLabel;
-@property(nonatomic, assign, readonly) CGFloat totalTime;
-@property(nonatomic, assign, readonly) CGFloat mediaTime;
 @end
 
 static BOOL enabled;
@@ -50,7 +47,7 @@ static void modifyLabel(UILabel *label, float remainingSeconds, float videoSpeed
 	if ([self.view.overlayView class] != %c(YTMainAppVideoPlayerOverlayView)) return;
 
 	// Get remaining seconds
-	float remainingSeconds = self.view.overlayView.playerBar.playerBar.totalTime - self.view.overlayView.playerBar.playerBar.mediaTime;
+	float remainingSeconds = [[self.view.overlayView.playerBar valueForKey:@"_totalTime"] floatValue] - [[self.view.overlayView.playerBar valueForKey:@"_roundedMediaTime"] floatValue];
 
 	// Get time label
 	UILabel *progressLabel = self.view.overlayView.playerBar.durationLabel;
