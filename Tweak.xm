@@ -22,38 +22,40 @@ static void loadPrefs() {
 	twentyFourHourClockEnabled = [prefs objectForKey:@"twentyFourHourClockEnabled"] ? [[prefs objectForKey:@"twentyFourHourClockEnabled"] boolValue] : NO;
 }
 
-static void modifyLabel(UILabel *label, float remainingSeconds, float videoSpeed) {
-	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-	NSMutableString *formatString = [[NSMutableString alloc] initWithString:@"mm"];
-	// Add seconds, if they're enabled
-	if (secondsEnabled) [formatString appendString:@":ss"];
-	// Determine 12h/24h time
-	twentyFourHourClockEnabled ? [formatString insertString:@"HH:" atIndex:0] : [formatString insertString:@"hh:" atIndex:0];;
-	// Make the NSDateFormatter use our time format
-	[dateFormatter setDateFormat:formatString];
-	// Get what time it'll be when the video ends
-	NSString *endsAtString = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:remainingSeconds/videoSpeed]];
-	// Update the label's text
-	if (![label.text containsString:@"Ends at"]) [label setText:[NSString stringWithFormat:@"%@ - Ends at: %@", label.text, endsAtString]];
-	// Resize the label's frame so that the new text fits
-	[label sizeToFit];
-}
-
 %hook YTPlayerViewController
 -(void)singleVideo:(id)arg1 currentVideoTimeDidChange:(id)arg2 {
-	%orig;
-	if (!enabled) return;
+	if (!enabled) return %orig;
 
 	// Fixes crash with auto-playing videos on the home page
 	if ([self.view.overlayView class] != %c(YTMainAppVideoPlayerOverlayView)) return;
 
-	// Get remaining seconds
-	float remainingSeconds = [[self.view.overlayView.playerBar valueForKey:@"_totalTime"] floatValue] - [[self.view.overlayView.playerBar valueForKey:@"_roundedMediaTime"] floatValue];
+	// Get playback details
+	UIView *playerBar = self.view.overlayView.playerBar;
+	float remainingSeconds = [[playerBar valueForKey:@"_totalTime"] floatValue] - [[playerBar valueForKey:@"_roundedMediaTime"] floatValue];
+	float videoSpeed = [self currentPlaybackRateForVarispeedSwitchController:nil];
 
 	// Get time label
-	UILabel *progressLabel = self.view.overlayView.playerBar.durationLabel;
-	// Modify label
-	if (![progressLabel.text containsString:@"Ends at"]) modifyLabel(progressLabel, remainingSeconds, [self currentPlaybackRateForVarispeedSwitchController:nil]);
+	UILabel *label = playerBar.durationLabel;
+
+	// Create date formatter
+	NSMutableString *formatString = [[NSMutableString alloc] initWithString:@"mm"];
+	if (secondsEnabled) [formatString appendString:@":ss"]; // Add seconds if needed
+	[formatString insertString:twentyFourHourClockEnabled ? @"HH:" : @"hh:" atIndex:0]; // Handle 12h/24h time
+
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setDateFormat:formatString];
+
+	// Get video end time
+	NSDate *date = [NSDate dateWithTimeIntervalSinceNow:remainingSeconds / videoSpeed];
+	NSString *endsAtString = [dateFormatter stringFromDate:date];
+	
+	// Update the label
+	NSString *origTimeLabelText = [@"/ " stringByAppendingString:[[label.text substringFromIndex:2] componentsSeparatedByString:@" "][0]];
+	NSString *updatedText = [NSString stringWithFormat:@"%@ - Ends at: %@", origTimeLabelText, endsAtString];
+	[label setText:updatedText];
+	[label sizeToFit];
+
+	%orig;
 }
 %end
 
