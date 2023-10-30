@@ -39,7 +39,7 @@
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://paypal.me/iCrazeiOS/2.50"] options:@{} completionHandler:nil];
 }
 
--(void)sleepsaver {
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://repo.packix.com/package/com.icraze.sleepsaver"] options:@{} completionHandler:nil];
+-(void)nexus {
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://havoc.app/package/nexus"] options:@{} completionHandler:nil];
 }
 @end

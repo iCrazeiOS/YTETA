@@ -80,7 +80,7 @@
 			<key>label</key>
 			<string>Support</string>
 			<key>footerText</key>
-			<string>SleepSaver adds fully customisable screensavers to your iOS device. Available for just $1.50 on Packix repo. Supports iOS 11.0+</string>
+			<string>Nexus grants you access to complete lockscreen customisation on your iOS device. Available for $1.99 on Havoc repo. Supports iOS 14 and 15</string>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -92,11 +92,11 @@
 		</dict>
 		<dict>
 			<key>action</key>
-			<string>sleepsaver</string>
+			<string>nexus</string>
 			<key>cell</key>
 			<string>PSButtonCell</string>
 			<key>label</key>
-			<string>Check out my tweak SleepSaver</string>
+			<string>Check out my tweak Nexus</string>
 		</dict>
 	</array>
 	<key>title</key>
