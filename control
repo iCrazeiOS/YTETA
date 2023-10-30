@@ -1,9 +1,9 @@
 Package: com.icraze.yteta
 Name: YTETA
 Depends: mobilesubstrate
-Version: 1.3
+Version: 1.4
 Architecture: iphoneos-arm
-Description: Display the time when a YouTube video will end.
+Description: Display the time when a YouTube video will end
 Maintainer: iCraze
 Author: iCraze
 Section: Tweaks
