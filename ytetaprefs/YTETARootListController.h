@@ -1,7 +1,7 @@
 #import <Preferences/PSListController.h>
 #import <Preferences/PSSpecifier.h>
 #import <Preferences/PSListController.h>
-#import <spawn.h>
+#import <rootless.h>
 
 @interface YTETARootListController : PSListController
 @end

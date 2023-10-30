@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import <rootless.h>
 
 @interface YTPlayerViewController : UIViewController
 -(float)currentPlaybackRateForVarispeedSwitchController:(id)arg1;
@@ -15,7 +16,7 @@ static BOOL secondsEnabled;
 static BOOL twentyFourHourClockEnabled;
 
 static void loadPrefs() {
-	NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.icraze.ytetaprefs.plist"];
+	NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:ROOT_PATH_NS(@"/var/mobile/Library/Preferences/com.icraze.ytetaprefs.plist")];
 	enabled = [prefs objectForKey:@"enabled"] ? [[prefs objectForKey:@"enabled"] boolValue] : YES;
 	secondsEnabled = [prefs objectForKey:@"secondsEnabled"] ? [[prefs objectForKey:@"secondsEnabled"] boolValue] : YES;
 	twentyFourHourClockEnabled = [prefs objectForKey:@"twentyFourHourClockEnabled"] ? [[prefs objectForKey:@"twentyFourHourClockEnabled"] boolValue] : NO;
