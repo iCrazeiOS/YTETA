@@ -1,6 +1,6 @@
 ARCHS = arm64
 
-export PREFIX = $(THEOS)/toolchain/Xcode11.xctoolchain/usr/bin/
+export PREFIX = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/
 export SDKVERSION = 14.4
 
 INSTALL_TARGET_PROCESSES = YouTube
