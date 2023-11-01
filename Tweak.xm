@@ -2,13 +2,16 @@
 #import <rootless.h>
 
 @interface YTPlayerViewController : UIViewController
--(float)currentPlaybackRateForVarispeedSwitchController:(id)arg1;
 @end
 
 @interface UIView ()
 @property(nonatomic, readwrite) UIView *overlayView;
 @property(nonatomic, readwrite) UIView *playerBar;
 @property(nonatomic, readwrite) UILabel *durationLabel;
+@end
+
+@interface YTSingleVideoController : NSObject
+-(float)playbackRate;
 @end
 
 static BOOL enabled;
@@ -23,7 +26,7 @@ static void loadPrefs() {
 }
 
 %hook YTPlayerViewController
--(void)singleVideo:(id)arg1 currentVideoTimeDidChange:(id)arg2 {
+-(void)singleVideo:(YTSingleVideoController *)video currentVideoTimeDidChange:(id)arg2 {
 	if (!enabled) return %orig;
 
 	// Fixes crash with auto-playing videos on the home page
@@ -32,7 +35,6 @@ static void loadPrefs() {
 	// Get playback details
 	UIView *playerBar = self.view.overlayView.playerBar;
 	float remainingSeconds = [[playerBar valueForKey:@"_totalTime"] floatValue] - [[playerBar valueForKey:@"_roundedMediaTime"] floatValue];
-	float videoSpeed = [self currentPlaybackRateForVarispeedSwitchController:nil];
 
 	// Get time label
 	UILabel *label = playerBar.durationLabel;
@@ -46,7 +48,7 @@ static void loadPrefs() {
 	[dateFormatter setDateFormat:formatString];
 
 	// Get video end time
-	NSDate *date = [NSDate dateWithTimeIntervalSinceNow:remainingSeconds / videoSpeed];
+	NSDate *date = [NSDate dateWithTimeIntervalSinceNow:remainingSeconds / [video playbackRate]];
 	NSString *endsAtString = [dateFormatter stringFromDate:date];
 	
 	// Update the label
