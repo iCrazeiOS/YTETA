@@ -27,7 +27,7 @@ static void loadPrefs() {
 	if (!enabled) return %orig;
 
 	// Fixes crash with auto-playing videos on the home page
-	if ([self.view.overlayView class] != %c(YTMainAppVideoPlayerOverlayView)) return;
+	if ([self.view.overlayView class] != %c(YTMainAppVideoPlayerOverlayView)) return %orig;
 
 	// Get playback details
 	UIView *playerBar = self.view.overlayView.playerBar;
