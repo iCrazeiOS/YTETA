@@ -25,12 +25,11 @@ static void loadPrefs() {
 	twentyFourHourClockEnabled = [prefs objectForKey:@"twentyFourHourClockEnabled"] ? [[prefs objectForKey:@"twentyFourHourClockEnabled"] boolValue] : NO;
 }
 
-%hook YTPlayerViewController
--(void)singleVideo:(YTSingleVideoController *)video currentVideoTimeDidChange:(id)arg2 {
-	if (!enabled) return %orig;
+static void currentVideoTimeDidChange(YTPlayerViewController *self, YTSingleVideoController *video) {
+	if (!enabled) return;
 
 	// Fixes crash with auto-playing videos on the home page
-	if ([self.view.overlayView class] != %c(YTMainAppVideoPlayerOverlayView)) return %orig;
+	if ([self.view.overlayView class] != %c(YTMainAppVideoPlayerOverlayView)) return;
 
 	// Get playback details
 	UIView *playerBar = self.view.overlayView.playerBar;
@@ -56,7 +55,16 @@ static void loadPrefs() {
 	NSString *updatedText = [NSString stringWithFormat:@"%@ - Ends at: %@", origTimeLabelText, endsAtString];
 	[label setText:updatedText];
 	[label sizeToFit];
+}
 
+%hook YTPlayerViewController
+-(void)singleVideo:(YTSingleVideoController *)video currentVideoTimeDidChange:(id)arg2 {
+	currentVideoTimeDidChange(self, video);
+	%orig;
+}
+
+-(void)potentiallyMutatedSingleVideo:(id)video currentVideoTimeDidChange:(id)arg2 {
+	currentVideoTimeDidChange(self, video);
 	%orig;
 }
 %end
